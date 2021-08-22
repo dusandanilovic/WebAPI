@@ -1,22 +1,29 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebAPI.Core.Services;
 
 namespace CurrencyWebAPI.Controllers.Base
 {
     /// <summary>
     /// The Currency controller base
     /// </summary>
-    public abstract class CurrencyControllerBase : ControllerBase
+    public abstract class CurrencyControllerBase : Controller
     {
+        protected readonly ICurrencyService currencyService;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="CurrencyControllerBase"/> class.
         /// </summary>
-        /// <param name="serviceProvider">The service provider.</param>
-        public CurrencyControllerBase(IServiceProvider serviceProvider) : base(serviceProvider) { }
+        /// <param name="currencyService">The currency service.</param>
+        public CurrencyControllerBase(ICurrencyService currencyService)
+        {
+            this.currencyService = currencyService;
+        }
 
         /// <summary>
         /// Get exchange rate data
@@ -33,6 +40,8 @@ namespace CurrencyWebAPI.Controllers.Base
         [SwaggerResponse(statusCode: 400, description: "bad request")]
         [SwaggerResponse(statusCode: 404, description: "not found")]
         [SwaggerResponse(statusCode: 500, description: "internal server error")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public abstract Task<IActionResult> GetExchangeRateData(string days, string baseCurrency, string targetCurrency);
     }
 }

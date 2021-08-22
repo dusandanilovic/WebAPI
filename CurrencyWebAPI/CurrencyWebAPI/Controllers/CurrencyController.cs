@@ -20,8 +20,8 @@ namespace CurrencyWebAPI.Controllers
         /// <summary>
         /// Initializes a new instance of the <see cref="CurrencyController"/> class.
         /// </summary>
-        /// <param name="serviceProvider">The service provider.</param>
-        public CurrencyController(IServiceProvider serviceProvider) : base(serviceProvider) { }
+        /// <param name="currencyService">The currency service.</param>
+        public CurrencyController(ICurrencyService currencyService) : base(currencyService) { }
 
         /// <summary>
         /// Get exchange rate data
@@ -36,8 +36,7 @@ namespace CurrencyWebAPI.Controllers
         {
             try
             {
-                var currencyService = this.serviceProvider.GetRequiredService<ICurrencyService>();
-                var exchangeRateData = await currencyService.GetExchangeRateData(days, baseCurrency, targetCurrency);
+                var exchangeRateData = await this.currencyService.GetExchangeRateData(days, baseCurrency, targetCurrency);
                 if(exchangeRateData != null)
                 {
                     return this.Ok(exchangeRateData);

@@ -11,10 +11,10 @@ namespace WebAPI.Infrastructure.Services
 {
     public class CurrencyService : ICurrencyService
     {
-        private readonly IServiceProvider serviceProvider;
-        public CurrencyService(IServiceProvider serviceProvider)
+        private readonly IExchangeRatesApiService exchangeRatesApiService;
+        public CurrencyService(IExchangeRatesApiService exchangeRatesApiService)
         {
-            this.serviceProvider = serviceProvider ?? throw new ArgumentNullException("serviceProvider is null");
+            this.exchangeRatesApiService = exchangeRatesApiService ?? throw new ArgumentNullException("exchangeRatesApiService is null");
         }
 
         public async Task<ExchangeRateData> GetExchangeRateData(string days, string baseCurrency, string targetCurrency)
@@ -24,20 +24,9 @@ namespace WebAPI.Infrastructure.Services
                 if (days != null)
                 {
                     List<DateTime> listOfDays = days.Split(',').Select(d => DateTime.Parse(d)).ToList();
-                    var exchangeRatesApiService = this.serviceProvider.GetRequiredService<IExchangeRatesApiService>();
                     List<ExchangeRateDTO> exchangeRateDTOs = new List<ExchangeRateDTO>();
-                    var tasks = listOfDays.Select(day => exchangeRatesApiService.GetDailyExchangeRate(day, baseCurrency, targetCurrency));
+                    var tasks = listOfDays.Select(day => this.exchangeRatesApiService.GetDailyExchangeRate(day, baseCurrency, targetCurrency));
                     var exchangeRates = await Task.WhenAll(tasks);
-                    //foreach (var day in listOfDays)
-                    //{
-                    //    var exchangeRate = await exchangeRatesApiService.GetDailyExchangeRate(day, baseCurrency, targetCurrency);
-                    //    exchangeRates.Add(new ExchangeRateDTO
-                    //    {
-                    //        Date = exchangeRate.Date,
-                    //        BaseCurrency = exchangeRate.BaseCurrency,
-                    //        Rate = exchangeRate.Rates.TryGetValue(targetCurrency, out decimal rate) == true ? rate : 0
-                    //    });
-                    //}
 
                     foreach (var exchangeRate in exchangeRates)
                     {

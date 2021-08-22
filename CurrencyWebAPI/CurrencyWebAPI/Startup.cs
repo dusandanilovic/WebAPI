@@ -16,6 +16,9 @@ using WebAPI.Providers.Services;
 
 namespace CurrencyWebAPI
 {
+    /// <summary>
+    /// The startup
+    /// </summary>
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -51,8 +54,8 @@ namespace CurrencyWebAPI
                 });
 
 
-            services.AddSingleton<ICurrencyService, CurrencyService>();
-            services.AddSingleton<IExchangeRatesApiService, ExchangeRatesApiService>();
+            services.AddTransient<ICurrencyService, CurrencyService>();
+            services.AddTransient<IExchangeRatesApiService, ExchangeRatesApiService>();
         }
 
         /// <summary>
@@ -67,11 +70,7 @@ namespace CurrencyWebAPI
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
-
             app.UseRouting();
-
-            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

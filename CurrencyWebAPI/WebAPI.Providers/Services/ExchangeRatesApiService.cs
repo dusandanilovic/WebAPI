@@ -11,6 +11,7 @@ namespace WebAPI.Providers.Services
     public class ExchangeRatesApiService : IExchangeRatesApiService
     {
         public Configuration Configuration { get; }
+
         public ExchangeRatesApiService()
         {
             this.Configuration = new Configuration
