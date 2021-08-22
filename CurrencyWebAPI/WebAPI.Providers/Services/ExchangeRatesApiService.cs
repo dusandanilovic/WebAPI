@@ -16,7 +16,7 @@ namespace WebAPI.Providers.Services
             this.Configuration = new Configuration
             {
                 BaseUrl = "http://api.exchangeratesapi.io/v1",
-                AccessKey = "4d26f302fa69323696bb66270f6bb33e"
+                AccessKey = "a920e661aa18231a9b3463515afa132e"
             };
         }
 
