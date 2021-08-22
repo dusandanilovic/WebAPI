@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,6 +11,7 @@ namespace WebAPI.Infrastructure.Services
     public class CurrencyService : ICurrencyService
     {
         private readonly IExchangeRatesApiService exchangeRatesApiService;
+
         public CurrencyService(IExchangeRatesApiService exchangeRatesApiService)
         {
             this.exchangeRatesApiService = exchangeRatesApiService ?? throw new ArgumentNullException("exchangeRatesApiService is null");

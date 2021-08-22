@@ -21,6 +21,10 @@ namespace CurrencyWebAPI
     /// </summary>
     public class Startup
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Startup"/> class.
+        /// </summary>
+        /// <param name="configuration">The configuration.</param>
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -52,7 +56,6 @@ namespace CurrencyWebAPI
                 {
                     options.IncludeXmlComments($"{AppContext.BaseDirectory}CurrencyWebAPI.xml");
                 });
-
 
             services.AddTransient<ICurrencyService, CurrencyService>();
             services.AddTransient<IExchangeRatesApiService, ExchangeRatesApiService>();
